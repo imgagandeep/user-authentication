@@ -1,0 +1,9 @@
+__pycache__
+**/migrations/**
+!user_auth/migrations/__init__.py
+!user_interface/migrations/__init__.py
+.env
+# **/static/**
+static/bootstrap
+static/flatpickr
+

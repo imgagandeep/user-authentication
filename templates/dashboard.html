@@ -1,0 +1,70 @@
+{% extends 'master_dashboard.html' %}
+{% load static %}
+{% block dashboardactive %} active {% endblock dashboardactive %}
+{% block title %} Dashboard | Authentication {% endblock title %}
+
+{% block body %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+
+    <div class="container">
+        &nbsp;
+        &nbsp;
+        <table id="DataTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Date of Birth</th>
+                    <th>Gender</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody class="scroll-pane">
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.first_name }} {{ user.last_name }}</td>
+                        <td>{{ user.date_of_birth }}</td>
+                        <td>{{ user.gender }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.phone_number }}</td>
+                        <td>{{ user.type }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <ul class='pagination mt-3 justify-content-end'>
+            {% if users.has_previous %}
+              <li class="paginate_button mx-1"><a href='{% url "list-users" users.previous_page_number %}'>Previous</a></li>
+            {% else %}
+              <li class='paginate_button disabled mx-1'><span>Previous</span></li>
+            {% endif %}
+          
+            {% for i in users.paginator.page_range %}
+              {% if users.number == i %}
+                <li class='page_number active mx-1'><span>{{ i }}</span></li>
+                {% else %}
+                <li class="page_number mx-1"><a href='{% url "list-users" i %}'>{{ i }}</a></li>
+              {% endif %}
+            {% endfor %}
+            
+            {% if users.has_next %}
+              <li class="paginate_button mx-1"><a href='{% url "list-users" users.next_page_number %}'>Next</a></li>
+            {% else %}
+              <li class="paginate_button disabled mx-1"><span>Next</span></li> 
+            {% endif %}
+          </ul>
+    </div>
+    
+    <script>
+        $(document).ready(function () {
+            $('#DataTable').DataTable();
+        });
+    </script>
+
+{% endblock body %}
+
+

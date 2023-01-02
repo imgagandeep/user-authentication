@@ -1,0 +1,59 @@
+{% extends 'master_home.html' %}
+{% load static %}
+{% block loginactive %} active {% endblock loginactive %}
+{% block title %} Log in | Authentication {% endblock title %}
+
+{% block body %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+
+    <div class="login-form">
+        <div class="container">
+            <form action="/login" method="POST">
+                {% csrf_token %}
+                <h2 class="text-center my-3 py-3">What's your email and password?</h2>
+                <div class="form-group">
+                    {% for message in messages %}
+                        <div class="alert alert-dark alert-dismissible fade show" role="alert">
+                            {{message}}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                </div>
+                
+                <div class="form-group flex">
+                    <button class="btn btn-primary mb-2">
+                        <a href="{% url 'social:begin' 'google-oauth2' %}">Login With Google</a>
+                    </button>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input type="email" class="form-control" id="email" pattern="[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$" name = "email" placeholder="name@domain.com">
+                </div>
+                
+                <div class="form-group">
+                    <label for="number" class="form-label">Phone Number</label>
+                    <input type="tel" class="form-control" id="number" onkeypress="return onlyNumberKey(event)" minlength="10" maxlength="15" name="phone_number" placeholder="+91XXXXXXXXXX">
+                </div>
+    
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" minlength="4" name = "password" placeholder="Password" onkeypress="return onlyNumberKey(event)" minlength="4" maxlength="16" required>
+                </div>
+    
+                <div class="form-group">
+                    <label for="text" style="font-size: 18px;font-weight: bold;">Not a Member yet?&nbsp;</label><a href="/register" style="font-size: 18px">Sign Up</a><br>
+                </div>
+    
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit">Log In</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="{% static 'js/only-number.js' %}"></script>
+
+{% endblock body %}
+
+

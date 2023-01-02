@@ -1,0 +1,112 @@
+{% extends 'master_dashboard.html' %}
+{% load static %}
+{% block profileactive %} active {% endblock profileactive %}
+{% block title %} Profile | Authentication {% endblock title %}
+
+{% block body %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'flatpickr/css/flatpickr.css' %}">
+    
+    <div class="profile-form">
+        <div class="container">
+            <form action="/accounts/profile/" method="POST">
+                {% csrf_token %}
+                <h2 class="text-center my-3 py-3">Personal Details</h2>
+                <table align="center" cellpadding="10">
+                    <tr>
+                        <td colspan="2">
+                            {% for message in messages %}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {{message}}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            {% endfor %}
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="td-column">
+                            <div class="mb-3 flex">
+                                <label for="fname" class="form-label">First Name</label>
+                                <input type="fname" class="form-control" id="fname" name="first_name" value="{{ user.first_name }}" placeholder="First Name" required>
+                            </div>
+                        </td>
+    
+                        <td class="td-column">
+                            <div class="mb-3 flex">
+                                <label for="lname" class="form-label">Last Name</label>
+                                <input type="lname" class="form-control" id="lname" name="last_name" value="{{ user.last_name }}" placeholder="Last Name" required>
+                            </div>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="td-column">
+                            <label for="gender" class="form-label">Gender</label>
+                            <div class="mb-3" required>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="gender" id="Male" value="Male" {% if user.gender == "Male" %} Checked {% endif %}>
+                                    <label class="form-check-label" for="Male">Male</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="gender" id="Female" value="Female" {% if user.gender == "Female" %} Checked {% endif %}>
+                                    <label class="form-check-label" for="Female">Female</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="gender" id="Other" value="Other" {% if user.gender == "Other" %} Checked {% endif %}>
+                                    <label class="form-check-label" for="Other">Other</label>
+                                </div>
+                            </div>
+                        </td>
+    
+                        <td class="td-column">
+                            <div class="mb-3 flex">
+                                <label for="dob" class="form-label">Date of Birth</label>
+                                <input type="date" class="form-control" id="dob" name="date_of_birth" value="{{user.date_of_birth | date:'Y-m-d'}}" placeholder="yyyy-mm-dd" required>
+                            </div>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="td-column">
+                            <div class="mb-3 flex">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="email" pattern="[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$" name="email" value="{{ user.email }}" placeholder="name@domain.com" required>
+                            </div>
+                        </td>
+    
+                        <td class="td-column">
+                            <div class="mb-3 flex">
+                                <label for="number" class="form-label">Phone Number</label>
+                                <input type="tel" class="form-control" id="number" onkeypress="return onlyNumberKey(event)" minlength="10" maxlength="15" name="phone_number" value="{{ user.phone_number }}" placeholder="+91XXXXXXXXXX" required>
+                            </div>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td align="center" colspan="2">
+                            <button class="btn btn-primary" type="submit">Save</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+
+    <script src="{% static 'js/only-number.js' %}"></script>
+    <script src="{% static 'flatpickr/js/flatpickr.js' %}"></script>
+    <script>
+        var maxBirthdayDate = new Date();
+        maxBirthdayDate.setFullYear( maxBirthdayDate.getFullYear() - 18);
+        $("#dob").flatpickr({
+            dateFormat: "Y-m-d",
+            maxDate: maxBirthdayDate
+        });
+    </script>
+
+{% endblock body %}
+
+
+
+
+

@@ -1,0 +1,160 @@
+{% extends 'master_home.html' %}
+{% load static %}
+{% block registeractive %} active {% endblock registeractive %}
+{% block title %} Sign up | Authentication {% endblock title %}
+
+{% block body %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/signup.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'flatpickr/css/flatpickr.css' %}">
+    
+    <div class="signup-form">
+        <div class="container">
+            <form action="/register" method="POST">
+                {% csrf_token %}
+                <h2 class="text-center my-3 py-3">What's your details?</h2>
+                <table align="center" cellpadding="10">
+                    <tr>
+                        <td colspan="2">
+                            {% for message in messages %}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                {{message}}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="social_button">
+                            <button class="btn btn-primary mb-2">
+                                <a href="{% url 'social:begin' 'google-oauth2' %}">Login With Google</a>
+                            </button>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="td-column">
+                            <div class="mb-3 flex">
+                                <label for="fname" class="form-label">First Name</label>
+                                <input type="fname" class="form-control" id="fname" name="first_name" placeholder="First Name" required>
+                            </div>
+                        </td>
+    
+                        <td class="td-column">
+                            <div class="mb-3 flex">
+                                <label for="lname" class="form-label">Last Name</label>
+                                <input type="lname" class="form-control" id="lname" name="last_name" placeholder="Last Name" required>
+                            </div>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="td-column">
+                            <label for="gender" class="form-label">Gender</label>
+                            <div class="mb-3" required>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="gender" id="Male" value="Male" required>
+                                    <label class="form-check-label" for="Male">Male</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="gender" id="Female" value="Female">
+                                    <label class="form-check-label" for="Female">Female</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="gender" id="Other" value="Other">
+                                    <label class="form-check-label" for="Other">Other</label>
+                                </div>
+                            </div>
+                        </td>
+    
+                        <td class="td-column">
+                            <div class="mb-3 flex">
+                                <label for="dob" class="form-label">Date of Birth</label>
+                                <input type="date" class="form-control" id="dob" name="date_of_birth" placeholder="yyyy-mm-dd" required>
+                            </div>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="td-column">
+                            <div class="mb-3 flex">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="email" pattern="[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$" name="email" placeholder="name@domain.com" required>
+                            </div>
+                        </td>
+    
+                        <td class="td-column">
+                            <div class="mb-3 flex">
+                                <label for="number" class="form-label">Phone Number</label>
+                                <input type="tel" class="form-control" id="number" onkeypress="return onlyNumberKey(event)" minlength="10" maxlength="15" name="phone_number" placeholder="+91XXXXXXXXXX" required>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="td-column">
+                            <div class="mb-3">
+                                <label for="type" class="form-label">Type</label>
+                                <select class="form-select form-control" id="type" name="type" required>
+                                    <option value="">- Select your type..</option>
+                                    <option value="Primary" selected>Primary</option>
+                                    <option value="Secondary">Secondary</option>
+                                </select>
+                            </div>
+                        </td>
+    
+                        <td></td>
+                    </tr>
+    
+                    <tr>
+                        <td class="td-column">
+                            <div class="mb-3 flex">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password" minlength="4" name="password" placeholder="Password" onkeypress="return onlyNumberKey(event)" minlength="4" maxlength="16" required>
+                            </div>
+                        </td>
+    
+                        <td class="td-column">
+                            <div class="mb-3 flex">
+                                <label for="confirm-password" class="form-label">Confirm Password</label>
+                                <input type="password" class="form-control" id="confirm-password" minlength="4" name="confirm_password" placeholder="Confirm Password" onkeypress="return onlyNumberKey(event)" minlength="4" maxlength="16" required>
+                            </div>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td>
+                            <div class="mb-3">
+                                <label for="text">Already a Member?&nbsp;</label><a href="/login" style="font-size: 18px">Log In</a><br>
+                            </div>
+                        </td>
+                        <td></td>
+                    </tr>
+    
+                    <tr>
+                        <td align="center" colspan="2">
+                            <button class="btn btn-primary" type="submit">Sign Up</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+
+    <script src="{% static 'js/only-number.js' %}"></script>
+    <script src="{% static 'flatpickr/js/flatpickr.js' %}"></script>
+    <script>
+        var maxBirthdayDate = new Date();
+        maxBirthdayDate.setFullYear( maxBirthdayDate.getFullYear() - 18);
+        $("#dob").flatpickr({
+            dateFormat: "Y-m-d",
+            maxDate: maxBirthdayDate
+        });
+    </script>
+
+{% endblock body %}
+
+
+
+
+
